@@ -6,48 +6,83 @@ class fireProblem(Problem):
         super().__init__(initial, goal)
         self.grid = grid
 
+
     def actions(self, state):
-        x, y = state
+
+        (x,y), fires, water, base = state
         possible = []
 
         moves = {
-            "UP": (x-1, y),
-            "DOWN": (x+1, y),
-            "LEFT": (x, y-1),
-            "RIGHT": (x, y+1)
+            "UP": (x-1,y),
+            "DOWN": (x+1,y),
+            "LEFT": (x,y-1),
+            "RIGHT": (x,y+1)
         }
 
-        for action, (nx, ny) in moves.items():
-
+        for action,(nx,ny) in moves.items():
             if 0 <= nx < len(self.grid) and 0 <= ny < len(self.grid[0]):
+                possible.append(action)
 
-                if self.grid[nx][ny] != "X":   # NÃO é parede
-                    possible.append(action)
+        if (x,y) in fires and water > 0:
+            possible.append("EXTINGUISH")
+
+        if water == 0:
+            if (x,y) == base:
+                possible.append("REFILL")
 
         return possible
 
-    
+
     def result(self, state, action):
-        x, y = state
+
+        (x,y), fires, water, base = state
+        fires = list(fires)
 
         if action == "UP":
-            return (x-1, y)
-        elif action == "DOWN":
-            return (x+1, y)
-        elif action == "LEFT":
-            return (x, y-1)
-        elif action == "RIGHT":
-            return (x, y+1)
-    
-    def goal_test(self, state):
-        return state == self.goal
-    
-    def path_cost(self, c, state1, action, state2):
-        return c + 1
-    
-    def h(self, node):
-        x1, y1 = node.state
-        x2, y2 = self.goal
+            return ((x-1,y), tuple(fires), water, base)
 
-        return abs(x1-x2) + abs(y1-y2)
+        elif action == "DOWN":
+            return ((x+1,y), tuple(fires), water, base)
+
+        elif action == "LEFT":
+            return ((x,y-1), tuple(fires), water, base)
+
+        elif action == "RIGHT":
+            return ((x,y+1), tuple(fires), water, base)
+
+        elif action == "EXTINGUISH":
+            fires.remove((x,y))
+            return ((x,y), tuple(fires), water-1, base)
+
+        elif action == "REFILL":
+            return ((x,y), tuple(fires), 3, base)
+
+
+    def goal_test(self, state):
+        pos, fires, water, base = state
+        return len(fires) == 0
+
+
+    def path_cost(self, c, s1, a, s2):
+        return c + 1
+
+
+    def h(self, node):
+
+        (x,y), fires, water, base = node.state
+
+        if not fires:
+            return 0
+
+        fire_dist = min(
+            abs(x-fx) + abs(y-fy)
+            for (fx,fy) in fires
+        )
+
+        if water > 0:
+            return fire_dist
+
+        base_dist = abs(x-base[0]) + abs(y-base[1])
+
+        return base_dist + fire_dist
 
