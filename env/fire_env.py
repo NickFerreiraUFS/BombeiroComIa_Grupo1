@@ -5,7 +5,7 @@ class  FireEnvironment(Environment):
         super().__init__()
         self.grid = grid
         self.state = initial_state
-        self.base = (0, 0)  # exemplo
+        self.base = (0, 0) 
         self.max_water = 3
         (_,_),fires,_,_ = self.state
         self.fires = list(fires)

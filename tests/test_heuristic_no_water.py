@@ -1,5 +1,6 @@
 from problems.fire_problem import fireProblem
 from search import Node
+
 def test_heuristic_without_water():
 
     state = (
