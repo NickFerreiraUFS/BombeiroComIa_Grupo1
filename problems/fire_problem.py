@@ -20,17 +20,22 @@ class fireProblem(Problem):
         }
 
         for action,(nx,ny) in moves.items():
+
             if 0 <= nx < len(self.grid) and 0 <= ny < len(self.grid[0]):
+                
+                if water == 0 and (nx,ny) in fires:
+                    continue
+
                 possible.append(action)
 
         if (x,y) in fires and water > 0:
             possible.append("EXTINGUISH")
 
-        if water == 0:
-            if (x,y) == base:
-                possible.append("REFILL")
+        if water == 0 and (x,y) == base:
+            possible.append("REFILL")
 
         return possible
+
 
 
     def result(self, state, action):
