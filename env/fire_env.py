@@ -1,13 +1,13 @@
 from agents import Environment
 
 class  FireEnvironment(Environment):
-    def __init__(self, grid, initial_state):
+    def __init__(self, grid, initial_state, max_water=None):
         super().__init__()
         self.grid = grid
         self.state = initial_state
-        self.base = (0, 0) 
-        self.max_water = 3
-        (_,_),fires,_,_ = self.state
+        (_,_), fires, initial_water, base = self.state
+        self.base = base
+        self.max_water = initial_water if max_water is None else max_water
         self.fires = list(fires)
 
 
@@ -17,7 +17,6 @@ class  FireEnvironment(Environment):
     def execute_action(self, agent, action):
 
         (x,y), _, water, base = self.state
-        print(self.fires)
         if action == "UP":
             self.state = ((x-1,y), tuple(self.fires), water, base)
 
@@ -32,10 +31,8 @@ class  FireEnvironment(Environment):
 
         elif action == "EXTINGUISH":
             if (x,y) in self.fires and water > 0:
-                print ("FOGO DETECTADO")
                 self.fires.remove((x,y))
                 self.state = ((x,y), tuple(self.fires), water-1, base)
-                print("FOGO APAGADO")
 
         elif action == "REFILL":
             if (x,y) == base:
