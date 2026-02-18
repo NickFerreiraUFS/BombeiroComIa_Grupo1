@@ -127,10 +127,18 @@ pip install aima pytest
 pip install numpy
 ```
 
+
 ### 3. Executar simulação
 ```bash
 python main.py
 # ou python3 main.py no Linux/macOS
+```
+
+## (Opcional) Instalar pytest para testes
+```bash
+pip install pytest
+# ou
+pip3 install pytest
 ```
 
 ### 4. Executar testes
