@@ -1,5 +1,5 @@
 from env.fire_env import FireEnvironment
-from agent.fire_agents import FireAgent
+from agents.fire_agents import FireAgent
 
 
 grid = [

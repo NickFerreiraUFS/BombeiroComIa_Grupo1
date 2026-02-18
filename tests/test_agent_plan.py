@@ -1,4 +1,4 @@
-from agent.fire_agents import FireAgent
+from agents.fire_agents import FireAgent
 
 def test_agent_generates_plan():
 

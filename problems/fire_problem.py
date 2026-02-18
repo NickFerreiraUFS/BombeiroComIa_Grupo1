@@ -2,9 +2,10 @@ from search import Problem
 
 class fireProblem(Problem):
 
-    def __init__(self, initial, goal, grid):
+    def __init__(self, initial, goal, grid, max_water=3):
         super().__init__(initial, goal)
         self.grid = grid
+        self.max_water = max_water
 
 
     def actions(self, state):
@@ -60,7 +61,7 @@ class fireProblem(Problem):
             return ((x,y), tuple(fires), water-1, base)
 
         elif action == "REFILL":
-            return ((x,y), tuple(fires), 3, base)
+            return ((x,y), tuple(fires), self.max_water, base)
 
 
     def goal_test(self, state):
