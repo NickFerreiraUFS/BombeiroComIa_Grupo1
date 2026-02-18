@@ -7,6 +7,19 @@ class fireProblem(Problem):
         self.grid = grid
         self.max_water = max_water
 
+    def path_cost(self, c, state1, action, state2):
+
+        if action == "EXTINGUISH":
+            return c + 2
+
+        elif action == "REFILL":
+            return c + 15   # 🔥 MUITO CARO AGORA
+
+        else:
+            return c + 1
+
+
+
 
     def actions(self, state):
 
@@ -69,26 +82,20 @@ class fireProblem(Problem):
         return len(fires) == 0
 
 
-    def path_cost(self, c, s1, a, s2):
-        return c + 1
-
-
     def h(self, node):
-
-        (x,y), fires, water, base = node.state
-
+        pos, fires, water, base = node.state
         if not fires:
             return 0
 
-        fire_dist = min(
-            abs(x-fx) + abs(y-fy)
-            for (fx,fy) in fires
-        )
-
-        if water > 0:
-            return fire_dist
-
-        base_dist = abs(x-base[0]) + abs(y-base[1])
-
-        return base_dist + fire_dist
-
+        # 1. Distância para o fogo mais próximo (Admissível)
+        dist_to_near_fire = min(abs(pos[0]-f[0]) + abs(pos[1]-f[1]) for f in fires)
+        
+        # 2. Se a água não for suficiente para todos os fogos, 
+        # você OBRIGATORIAMENTE terá que ir à base pelo menos uma vez.
+        base_penalty = 0
+        if len(fires) > water:
+            # Distância de onde estou até a base + custo do refill (15)
+            dist_to_base = abs(pos[0]-base[0]) + abs(pos[1]-base[1])
+            base_penalty = dist_to_base + 15
+            
+        return max(dist_to_near_fire, base_penalty)
