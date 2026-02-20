@@ -4,7 +4,7 @@ def test_goal_test_false():
 
     state = (
         (0,0),
-        ((1,1)),   # ainda existe fogo
+        ((1,1),),   # ainda existe fogo
         2,
         (0,0)
     )

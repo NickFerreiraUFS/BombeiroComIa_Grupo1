@@ -14,7 +14,8 @@ def test_heuristic_without_water():
 
     node = Node(state)
 
-    # distância até base = 2
-    # distância base até fogo = 4
-    # heurística retorna base_dist + fire_dist
-    assert p.h(node) == 4
+    # dist_to_near_fire = 2
+    # dist_to_base = 2
+    # base_penalty = dist_to_base + 15 = 17
+    # h = max(2, 17) = 17
+    assert p.h(node) == 17
