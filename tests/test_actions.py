@@ -12,7 +12,7 @@ def test_result_move_up():
     p = fireProblem(
         initial=state,
         goal=None,
-        grid=[[0]]
+        grid=[[0]*3 for _ in range(3)]
     )
 
     new_state = p.result(state, "UP")
