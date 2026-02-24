@@ -230,6 +230,14 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
+### compilar o projeto
+```bash
+python -m compileall .
+# ou, sem ativar a virtualenv:
+.venv/bin/python -m compileall .
+```
+
+
 ### 2. Instalar dependência de testes
 ```bash
 pip install pytest
