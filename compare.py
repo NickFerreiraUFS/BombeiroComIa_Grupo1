@@ -15,12 +15,12 @@ from search import (
 )
 
 
-DEFAULT_GRID = [["." for _ in range(20)] for _ in range(20)]
+DEFAULT_GRID = [["." for _ in range(10)] for _ in range(10)]
 
 DEFAULT_INITIAL = (
-    (0, 0),
-    ((5, 5), (5, 15), (15, 5), (15, 15), (10, 10), (2, 18), (18, 2)),
-    3,
+    (0, 0), # Posição inicial do agente
+    ((5, 5), (5, 9), (9, 5), (9, 9), (7, 7), (2, 9), (9, 2)), # Posições iniciais dos fogos
+    3, # Número de agentes bombeiros disponíveis
     (0, 0),
 )
 

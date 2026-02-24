@@ -38,7 +38,7 @@ class  FireEnvironment(Environment):
             if (x,y) == base:
                 self.state = ((x,y), tuple(self.fires), self.max_water, base)
 
-
+    # Renderização simples do ambiente
     def render(self):
 
         (bx,by), fires, water, base = self.state

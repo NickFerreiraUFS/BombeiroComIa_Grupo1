@@ -8,18 +8,16 @@ class FireAgent(Agent):
 
         self.grid = grid
         self.plan = []
-        self.last_state = None
+        self.failed_state = None
+        self.search_failed = False
 
         def program(percept):
 
-            # 🔥 Se o mundo mudou → joga plano fora
-            if percept != self.last_state:
-                self.plan = []
-
-            self.last_state = percept
-
-            # 🧠 Replaneja se não tem plano
             if not self.plan:
+                # Avoid re-running the same failing search forever.
+                if self.failed_state == percept:
+                    self.search_failed = True
+                    return "NoOp"
 
                 problem = fireProblem(
                     initial = percept,
@@ -31,8 +29,15 @@ class FireAgent(Agent):
 
                 if solution:
                     self.plan = solution.solution()
+                    self.failed_state = None
+                    self.search_failed = False
+                else:
+                    self.failed_state = percept
+                    self.search_failed = True
+                    return "NoOp"
 
             if self.plan:
+                self.search_failed = False
                 return self.plan.pop(0)
 
             return "NoOp"

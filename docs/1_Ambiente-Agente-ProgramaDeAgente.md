@@ -4,9 +4,7 @@ Este documento comprova tecnicamente que o projeto atende aos dois critérios fu
 
 ---
 
-## Critério 1: Arquitetura Ambiente – Agente – Programa de Agente explícita
-
-### ✅ ATENDIDO
+## Arquitetura Ambiente – Agente – Programa de Agente explícita
 
 ### Evidências no código
 

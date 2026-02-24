@@ -1,0 +1,18 @@
+[agents] Usando fallback (AIMA indisponível: No module named 'ipythonblocks')
+
+Rodando BFS...
+
+Rodando DFS...
+
+Rodando UCS...
+
+Rodando Greedy...
+
+Rodando A*...
+
+===== RESULTADOS =====
+BFS -> Status: OK | Passos: 135 | Custo: 170 | Tempo: 9.1584s | Nós: 65761 | Fogos restantes: 0
+DFS -> Status: OK | Passos: 819 | Custo: 854 | Tempo: 0.1439s | Nós: 1446 | Fogos restantes: 0
+UCS -> Status: OK | Passos: 135 | Custo: 170 | Tempo: 23.1341s | Nós: 65897 | Fogos restantes: 0
+Greedy -> Status: OK | Passos: 233 | Custo: 268 | Tempo: 2.7917s | Nós: 12683 | Fogos restantes: 0
+A* -> Status: OK | Passos: 135 | Custo: 170 | Tempo: 44.3688s | Nós: 63749 | Fogos restantes: 0

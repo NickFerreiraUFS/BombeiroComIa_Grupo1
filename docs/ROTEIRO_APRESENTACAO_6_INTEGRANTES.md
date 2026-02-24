@@ -1,40 +1,18 @@
-# Roteiro de Apresentação (6 Integrantes)
-
-Este roteiro foi montado para cumprir exatamente o que o documento da atividade cobra: modelagem formal, classificação do ambiente, arquitetura Ambiente–Agente–Programa de Agente, uso de busca/heurística, testes e execução ao vivo.
-
----
-
-## Visão geral do tempo (sugestão)
-
-- Integrante 1: 2 min
-- Integrante 2: 2 min
-- Integrante 3: 2 min
-- Integrante 4: 2 min
-- Integrante 5: 2 min
-- Integrante 6: 2 min
-- Total técnico: ~12 min (ajustável)
-
----
-
-## Parte 1 — Integrante 1: Problema + Objetivo + Originalidade
+## Parte 1: Problema + Objetivo + Originalidade
 
 ### Foco
-- Apresentar o problema proposto pelo grupo.
-- Mostrar que é um problema original (não copiado de exemplo pronto do AIMA).
-- Conectar com o objetivo do projeto: agente que planeja para apagar incêndios com água limitada.
 
-### O que falar
 - “Nosso problema é um bombeiro em grid com focos de incêndio, água limitada e necessidade de reabastecer na base.”
 - “A solução usa busca dentro do programa do agente para gerar plano de ações.”
 - “O objetivo é minimizar custo de caminho apagando todos os focos.”
+- "O ambiente é completamente observável, determinístico, estático, discreto e de agente único."
 
-### Trechos para mostrar
-- `README.md` (seções: descrição, objetivo e estrutura geral).
-- `main.py` (cenário inicial e loop de execução).
 
-### Pontos de código para abrir
-- `main.py` (definição de `grid` e `initial`).
-- `main.py` (`while len(env.fires): env.step(); env.render()`).
+### Pontos de código
+- [main.py](../main.py) (configuração do ambiente e agente)
+- [env/fire_env.py](../env/fire_env.py) (definição do ambiente, percept e renderização)
+- [compare.py](../compare.py) (comparação de algoritmos)
+- [TestesAutomatizados](../tests/) (qualidade e confiabilidade) 
 
 ### Demonstração rápida (ao vivo)
 ```bash
@@ -48,7 +26,7 @@ python main.py
 ### Foco
 - Cobrir os 6 itens obrigatórios do PDF: estado, estado inicial, ações, transição, goal test, path cost.
 
-### O que falar
+### O que
 - “Estado: `((x, y), fires, water, base)`.”
 - “Ações: `UP`, `DOWN`, `LEFT`, `RIGHT`, `EXTINGUISH`, `REFILL`.”
 - “Transição altera posição/água/fogos conforme a ação.”
@@ -56,17 +34,16 @@ python main.py
 - “Custo: movimento=1, extinguir=2, refill=15.”
 
 ### Trechos para mostrar
-- `problems/fire_problem.py`:
-  - `class fireProblem`
-  - `actions(...)`
-  - `result(...)`
-  - `goal_test(...)`
-  - `path_cost(...)`
-- `main.py` (estado inicial concreto).
+- [`class fireProblem`](../problems/fire_problem.py#L3) (L3)
+- [`path_cost(...)`](../problems/fire_problem.py#L11-L19) (L11-19) — custo de movimento, extinguir, refill
+- [`actions(...)`](../problems/fire_problem.py#L23-L49) (L23-49) — ações válidas conforme estado
+- [`result(...)`](../problems/fire_problem.py#L53-L74) (L53-74) — transição de estado
+- [`goal_test(...)`](../problems/fire_problem.py#L77-L80) (L77-80) — teste de objetivo
+- [`h(node)`](../problems/fire_problem.py#L83-L101) (L83-101) — função heurística
 
 ### Pontos de código para abrir
-- `problems/fire_problem.py` (métodos formais do modelo).
-- `README.md` (tabela “mapeamento requisito → código”).
+- [`problems/fire_problem.py`](../problems/fire_problem.py) (métodos formais do modelo).
+- [`README.md`](../README.md) (tabela "mapeamento requisito → código").
 ### Material de apoio
 - Se perguntarem sobre mapeamento detalhado: `VERIFICACAO_ESPECIFICACAO_FORMAL.md`
 ---
@@ -81,7 +58,7 @@ python main.py
   - discreto/contínuo
   - agente único/múltiplos
 
-### O que falar
+### O que
 - “Determinístico: mesma ação no mesmo estado gera mesmo resultado.”
 - “Totalmente observável: percept retorna o estado completo.”
 - “Estático: ambiente não muda sozinho entre ações.”
@@ -89,14 +66,13 @@ python main.py
 - “Agente único: apenas um agente bombeiro decide.”
 
 ### Trechos para mostrar
-- `env/fire_env.py`:
-  - `percept(...)`
-  - `execute_action(...)`
-  - `render(...)`
+- [`percept(...)`](../env/fire_env.py#L15) (L15) — fornece estado completo
+- [`execute_action(...)`](../env/fire_env.py#L18-L40) (L18-40) — executa ação e atualiza estado
+- [`render(...)`](../env/fire_env.py#L42-L60) (L42-60) — renderização do mundo
 
 ### Pontos de código para abrir
-- `env/fire_env.py` (estrutura do ambiente e atualização do estado).
-- `README.md` (quadro de classificação do ambiente).
+- [`env/fire_env.py`](../env/fire_env.py) (estrutura do ambiente e atualização do estado).
+- [`README.md`](../README.md) (quadro de classificação do ambiente).
 
 ---
 
@@ -106,22 +82,20 @@ python main.py
 - Mostrar separação conceitual exigida no enunciado.
 - Provar que busca está dentro do programa do agente (não chamada isolada fora do ciclo percepção-ação).
 
-### O que falar
+### O que
 - “Ambiente: mantém estado, fornece percept e executa ação.”
 - “Agente: entidade inserida no ambiente.”
 - “Programa do agente: função `program(percept)` decide ação passo a passo.”
 - “Quando necessário, programa formula `fireProblem`, chama A* e executa plano.”
 
 ### Trechos para mostrar
-- `agents/fire_agents.py`:
-  - `class FireAgent`
-  - `program(percept)`
-  - chamada `astar_search(problem)`
-- `env/fire_env.py` (lado do ambiente no ciclo).
+- [`class FireAgent`](../agents/fire_agents.py#L5) (L5) — agente que planeja com A*
+- [`program(percept)`](../agents/fire_agents.py#L17-L47) (L17-47) — função que decide ação baseado em percept
+- [`astar_search(problem)`](../agents/fire_agents.py#L29) — chamada de busca dentro do programa
 
 ### Pontos de código para abrir
-- `agents/fire_agents.py` (replanejamento e consumo de plano).
-- `main.py` (`env.add_thing(agent)` + loop de passos).
+- [`agents/fire_agents.py`](../agents/fire_agents.py) (replanejamento e consumo de plano).
+- [`main.py`](../main.py) (`env.add_thing(agent)` + loop de passos).
 
 ---
 
@@ -132,18 +106,14 @@ python main.py
 - Explicar a heurística `h(n)` e sua intuição.
 - Mostrar comparação com outros algoritmos (BFS/DFS/UCS/Greedy/A*).
 
-### O que falar
+### O que
 - “A* foi escolhido como padrão por equilibrar custo acumulado e heurística.”
 - “Heurística usa distância Manhattan ao fogo mais próximo e considera necessidade de refill quando água é insuficiente.”
 - “Também avaliamos outros algoritmos para justificar adequação ao problema.”
 
 ### Trechos para mostrar
-- `problems/fire_problem.py`:
-  - `h(node)`
-- `compare.py`:
-  - `default_algorithms()`
-  - `run_comparison(...)`
-  - `print_results(...)`
+- [`h(node)`](../problems/fire_problem.py#L83-L101) (L83-101) — função heurística
+- [`compare.py`](../compare.py) — comparação de algoritmos de busca
 
 ### Demonstração ao vivo (comparação)
 ```bash
@@ -163,7 +133,7 @@ python compare.py --step-delay 0.1
 - Comprovar qualidade e confiabilidade via testes automatizados.
 - Encerrar com execução final ao vivo e ligação com critérios de avaliação.
 
-### O que falar
+### O que
 - “Temos testes para ações, transição, objetivo, custo, heurística, agente e execução completa.”
 - “A suíte garante que o comportamento esperado está preservado.”
 - “Fechamos demonstrando execução em tempo real.”
@@ -212,11 +182,3 @@ python main.py
 - [ ] Ter um plano B: se animação estiver lenta, usar `--no-visualize`.
 
 ---
-
-## Script curto de transição entre integrantes
-
-- Integrante 1 → 2: “Com o problema apresentado, agora formalizamos no modelo AIMA.”
-- Integrante 2 → 3: “Com a modelagem pronta, classificamos o ambiente formalmente.”
-- Integrante 3 → 4: “Agora mostramos a arquitetura Ambiente–Agente–Programa no código.”
-- Integrante 4 → 5: “Com a arquitetura definida, explicamos busca e heurística.”
-- Integrante 5 → 6: “Por fim, validamos com testes e encerramos com execução ao vivo.”

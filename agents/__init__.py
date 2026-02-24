@@ -3,6 +3,7 @@ Pacote agents - Re-exporta classes do agents.py (AIMA) ou fornece fallback leve.
 """
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+import os
 import sys
 
 _base_agents_path = Path(__file__).resolve().parent.parent / "agents.py"
@@ -60,7 +61,9 @@ try:
         globals()[name] = getattr(_base_agents, name)
     
     __all__ = _aima_all
-    print(f"[agents] Usando AIMA agents.py completo", file=sys.stderr)
+    if os.getenv("AGENTS_IMPORT_DEBUG") == "1":
+        print("[agents] Usando AIMA agents.py completo", file=sys.stderr)
     
 except Exception as e:
-    print(f"[agents] Usando fallback (AIMA indisponível: {e})", file=sys.stderr)
+    if os.getenv("AGENTS_IMPORT_DEBUG") == "1":
+        print(f"[agents] Usando fallback (AIMA indisponível: {e})", file=sys.stderr)
